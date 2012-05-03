@@ -12,6 +12,30 @@
       $.Widget.prototype.destroy.call(this);
       this.element.removeClass("ui-helper-hidden");
     },
+    dump: function() {
+      this.element.val(this._valueOf(this.contentElement.find(".ui-predicate-element").first()));
+    },
+    _valueOf: function(node) {
+      var mode = node.find("select:first").val();
+      if (mode === "value") {
+        return $(node.find("select")[1]).val();
+      } else {
+        var args = [],
+            predicate = this,
+            value = null;
+        node.find(".ui-predicate-element-content").first().find("> .ui-predicate-element").each(function(i, child) {
+          value = predicate._valueOf($(child));
+          if (value) {
+            args.push(value);
+          }
+        });
+        if (args.length === 0) {
+          return null;
+        }
+        args.unshift(mode);
+        return '(' + args.join(",") + ')';
+      }
+    },
     _drawScene: function() {
       this.element.after($(['<div class="ui-widget ui-corner-all ui-predicate">',
                             '<div class="ui-widget-header ui-corner-all">Predicate Editor</div>',
@@ -53,16 +77,21 @@
           addButton.removeClass("ui-helper-hidden");
           content.removeClass("ui-helper-hidden");
         }
+        predicate.dump();
+      });
+      item.find("select:last").on("change", function() {
+        predicate.dump();
       });
       item.find(".ui-predicate-add").on("click", function() {
-        console.log("add");
         predicate._createContentItem(item.find(".ui-predicate-element-content").first());
       });
       item.find(".ui-predicate-remove").on("click", function() {
         item.remove();
+        predicate.dump();
       });
 
       contentElement.append(item);
+      this.dump();
     },
     _cachedSelectOptionsFor: function(key, options, selected) {
       this._optionsCache = this._optionsCache || {};

@@ -12,6 +12,7 @@
         $("input").predicate({
           operators: [{title: "Any", value: "||"}, {title: "All", value: "&&"}, {title: "None", value: "!"}],
           values: [{title: "Mac OS", value: 1}, {title: "Linux", value: 2}, {title: "Windows", value: 3}],
+          notation: "prefix",
           // Колбек, вызываемый после добавления селекта значения, element — HTMLElement селекта
           onLeafAdded: function(element) {},
           // Колбек, вызываемый после добавления селекта оператора, element — HTMLElement селекта
