@@ -1,0 +1,14 @@
+.ui-predicate-element {
+  margin: 2px 0;
+}
+
+.ui-predicate .ui-icon {
+  float: right;
+  cursor: pointer;
+}
+
+.ui-predicate-element-content {
+  margin-left: 10px;
+}
+
+.ui-helper-hidden { display: none; }
