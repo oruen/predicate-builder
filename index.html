@@ -6,11 +6,12 @@
     <link href="ui/jquery.ui.predicate.css" type="text/css" rel="stylesheet" />
     <script src="external/jquery-1.7.2.min.js"></script>
     <script src="external/jquery-ui-1.8.20.custom.min.js"></script>
+    <script src="external/peg-0.7.0.min.js"></script>
     <script src="ui/jquery.ui.predicate.js"></script>
     <script>
       $(function() {
         $("input").predicate({
-          operators: [{title: "Any", value: "||"}, {title: "All", value: "&&"}, {title: "None", value: "!"}],
+          operators: [{title: "Any", value: "|"}, {title: "All", value: "&"}, {title: "None", value: "!"}],
           values: [{title: "Mac OS", value: 1}, {title: "Linux", value: 2}, {title: "Windows", value: 3}],
           notation: "prefix",
           // Колбек, вызываемый после добавления селекта значения, element — HTMLElement селекта

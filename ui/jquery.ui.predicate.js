@@ -2,11 +2,24 @@
   $.widget("ui.predicate", $.extend($.Widget, {
     version: "0.0.1",
     contentElement: null,
+    parserRules: [
+      'start',
+      '  = expr',
+      'expr',
+      '  = func / value',
+      'value',
+      '  = value:[0-9]+ { return value[0]; }',
+      'func',
+      '  = "(" name:[a-zA-Z0-9]+ "," args:argument+ ")" { return {operator: name[0], value: args }; }',
+      'argument',
+      '  = val:expr ","? { return val; }'
+    ].join("\n"),
     _create: function() {
       this.element.addClass("ui-helper-hidden");
       this._drawScene();
       this.contentElement = this.element.next();
       this._drawContent();
+      this._buildParser();
     },
     destroy: function() {
       $.Widget.prototype.destroy.call(this);
@@ -14,6 +27,9 @@
     },
     dump: function() {
       this.element.val(this._valueOf(this.contentElement.find(".ui-predicate-element").first()));
+    },
+    _buildParser: function() {
+      this.parser = PEG.buildParser(this.parserRules, {trackLineAndColumn: true});
     },
     _valueOf: function(node) {
       var mode = node.find("select:first").val();
