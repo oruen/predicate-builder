@@ -61,14 +61,13 @@
     _drawContent: function() {
       if (this.element.val().trim().length === 0) {
         this._createContentItem();
-        this.contentElement.find(".ui-predicate-remove").first().remove();
       } else {
         this._drawNode(this.parser.parse(this.element.val()));
       }
+      this.contentElement.find(".ui-predicate-remove").first().remove();
       this.dump();
     },
     _drawNode: function(node, contentElement) {
-      console.log(node);
       contentElement = contentElement || this.contentElement;
       var i, element;
       if (typeof(node) !== 'object') {
