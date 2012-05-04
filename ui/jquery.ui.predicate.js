@@ -53,18 +53,23 @@
       }
     },
     _drawScene: function() {
-      this.element.after($(['<div class="ui-widget ui-corner-all ui-predicate">',
-                            '<div class="ui-widget-header ui-corner-all">' + this.options.title + '</div>',
-                            '</div>',
-                          '</div>'].join("")).css({width: "400px"}));
+      var scene = $(['<div class="ui-widget ui-corner-all ui-predicate">',
+                       '<div class="ui-widget-header ui-corner-all">',
+                         this.options.title,
+                         '<span class="ui-icon ui-icon-plusthick ui-predicate-add"></span>',
+                       '</div>',
+                     '</div>'].join("")).css({width: "400px"}),
+          predicate = this;
+      this.element.after(scene);
+      this.addButton = scene.find(".ui-predicate-add");
+      this.addButton.on("click", function() {
+        predicate._createContentItem();
+      });
     },
     _drawContent: function() {
-      if (this.element.val().trim().length === 0) {
-        this._createContentItem();
-      } else {
+      if (this.element.val().trim().length !== 0) {
         this._drawNode(this.parser.parse(this.element.val()));
       }
-      this.contentElement.find(".ui-predicate-remove").first().remove();
       this.dump();
     },
     _drawNode: function(node, contentElement) {
@@ -122,6 +127,7 @@
       item.find(".ui-predicate-remove").on("click", function() {
         item.remove();
         predicate.dump();
+        predicate._checkAddButton();
       });
 
       if (operator) {
@@ -134,7 +140,15 @@
       }
 
       contentElement.append(item);
+      this._checkAddButton();
       return item;
+    },
+    _checkAddButton: function() {
+      if (this.contentElement.children(".ui-predicate-element").size() > 0) {
+        this.addButton.addClass("ui-helper-hidden");
+      } else {
+        this.addButton.removeClass("ui-helper-hidden");
+      }
     },
     _cachedSelectOptionsFor: function(key, options, selected) {
       this._optionsCache = this._optionsCache || {};
