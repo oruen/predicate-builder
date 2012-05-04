@@ -11,6 +11,7 @@
     <script>
       $(function() {
         $("input").predicate({
+          title: "Predicate Builder",
           operators: [{title: "Any", value: "|"}, {title: "All", value: "&"}, {title: "None", value: "!"}],
           values: [{title: "Mac OS", value: 1}, {title: "Linux", value: 2}, {title: "Windows", value: 3}],
           notation: "prefix",
@@ -24,9 +25,9 @@
   </head>
   <body>
     <form action="#">
-      <!--input type="text" value="(&amp;,(|,1,2),3)" /-->
-      <!--input type="text" value="2" /-->
       <input type="text"/>
+      <input type="text" value="2">
+      <input type="text" value="(&amp;,(|,1,2),3)">
     </form>
   </body>
 </html>

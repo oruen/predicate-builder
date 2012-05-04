@@ -54,7 +54,7 @@
     },
     _drawScene: function() {
       this.element.after($(['<div class="ui-widget ui-corner-all ui-predicate">',
-                            '<div class="ui-widget-header ui-corner-all">Predicate Editor</div>',
+                            '<div class="ui-widget-header ui-corner-all">' + this.options.title + '</div>',
                             '</div>',
                           '</div>'].join("")).css({width: "400px"}));
     },
