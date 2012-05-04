@@ -10,7 +10,7 @@
       'value',
       '  = value:[0-9]+ { return value[0]; }',
       'func',
-      '  = "(" name:[a-zA-Z0-9]+ "," args:argument+ ")" { return {operator: name[0], value: args }; }',
+      '  = "(" name:[^,]+ "," args:argument+ ")" { return {operator: name[0], value: args }; }',
       'argument',
       '  = val:expr ","? { return val; }'
     ].join("\n"),
@@ -18,8 +18,8 @@
       this.element.addClass("ui-helper-hidden");
       this._drawScene();
       this.contentElement = this.element.next();
-      this._drawContent();
       this._buildParser();
+      this._drawContent();
     },
     destroy: function() {
       $.Widget.prototype.destroy.call(this);
@@ -59,10 +59,28 @@
                           '</div>'].join("")).css({width: "400px"}));
     },
     _drawContent: function() {
-      this._createContentItem();
-      this.contentElement.find(".ui-predicate-remove").first().remove();
+      if (this.element.val().trim().length === 0) {
+        this._createContentItem();
+        this.contentElement.find(".ui-predicate-remove").first().remove();
+      } else {
+        this._drawNode(this.parser.parse(this.element.val()));
+      }
+      this.dump();
     },
-    _createContentItem: function(contentElement) {
+    _drawNode: function(node, contentElement) {
+      console.log(node);
+      contentElement = contentElement || this.contentElement;
+      var i, element;
+      if (typeof(node) !== 'object') {
+        this._createContentItem(contentElement, null, node);
+      } else {
+        element = this._createContentItem(contentElement, node.operator, null).find(".ui-predicate-element-content");
+        for (i = 0; i < node.value.length; i++) {
+          this._drawNode(node.value[i], element);
+        }
+      }
+    },
+    _createContentItem: function(contentElement, operator, value) {
       var contentElement = contentElement || this.contentElement,
           item = $([
             '<div class="ui-predicate-element">',
@@ -100,14 +118,24 @@
       });
       item.find(".ui-predicate-add").on("click", function() {
         predicate._createContentItem(item.find(".ui-predicate-element-content").first());
+        predicate.dump();
       });
       item.find(".ui-predicate-remove").on("click", function() {
         item.remove();
         predicate.dump();
       });
 
+      if (operator) {
+        item.find("select:first").val(operator);
+        item.find("select:first").trigger("change");
+      }
+      if (value) {
+        item.find("select:last").val(value);
+        item.find("select:last").trigger("change");
+      }
+
       contentElement.append(item);
-      this.dump();
+      return item;
     },
     _cachedSelectOptionsFor: function(key, options, selected) {
       this._optionsCache = this._optionsCache || {};
