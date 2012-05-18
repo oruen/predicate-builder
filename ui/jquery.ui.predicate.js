@@ -2,6 +2,9 @@
   $.widget("ui.predicate", $.extend($.Widget, {
     version: "0.0.1",
     contentElement: null,
+    options: {
+      valueString: "Value"
+    },
     parserRules: [
       'start',
       '  = expr',
@@ -160,7 +163,7 @@
       return this._optionsCache[key];
     },
     _operatorSelect: function() {
-      return this._cachedSelectOptionsFor("operator", this.options.operators.concat({title: "Value", value: "value"}), "value");
+      return this._cachedSelectOptionsFor("operator", this.options.operators.concat({title: this.options.valueString, value: "value"}), "value");
     },
     _valueSelect: function() {
       return this._cachedSelectOptionsFor("value", this.options.values);
