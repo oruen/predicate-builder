@@ -2,6 +2,10 @@
   margin: 2px 0;
 }
 
+.ui-predicate-element .ui-widget-content {
+  text-align: left;
+}
+
 .ui-predicate .ui-icon {
   float: right;
   cursor: pointer;
