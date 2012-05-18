@@ -67,6 +67,7 @@
       this.addButton = scene.find(".ui-predicate-add");
       this.addButton.on("click", function() {
         predicate._createContentItem();
+        predicate.dump();
       });
     },
     _drawContent: function() {
