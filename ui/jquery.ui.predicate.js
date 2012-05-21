@@ -13,7 +13,7 @@
       'value',
       '  = value:[0-9]+ { return value[0]; }',
       'func',
-      '  = "(" name:[^,]+ "," args:argument+ ")" { return {operator: name[0], value: args }; }',
+      '  = "(" name:[^,]+ "," args:argument+ ")" { return {operator: name.join(""), value: args }; }',
       'argument',
       '  = val:expr ","? { return val; }'
     ].join("\n"),
