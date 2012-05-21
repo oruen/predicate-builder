@@ -11,7 +11,7 @@
       'expr',
       '  = func / value',
       'value',
-      '  = value:[0-9]+ { return value[0]; }',
+      '  = value:[0-9]+ { return value.join(""); }',
       'func',
       '  = "(" name:[^,]+ "," args:argument+ ")" { return {operator: name.join(""), value: args }; }',
       'argument',
