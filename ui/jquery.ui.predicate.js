@@ -30,6 +30,13 @@
     },
     dump: function() {
       this.element.val(this._valueOf(this.contentElement.find(".ui-predicate-element").first()));
+      this.element.trigger("change");
+      if (this.drawingContent) { return; }
+      var value = this._valueOf(this.contentElement.find(".ui-predicate-element").first());
+      if (this.element.val() !== value) {
+        this.element.val(value);
+        this.element.trigger("change");
+      }
     },
     _buildParser: function() {
       this.parser = PEG.buildParser(this.parserRules, {trackLineAndColumn: true});
@@ -71,9 +78,11 @@
       });
     },
     _drawContent: function() {
+      this.drawingContent = true;
       if (this.element.val().trim().length !== 0) {
         this._drawNode(this.parser.parse(this.element.val()));
       }
+      this.drawingContent = false;
       this.dump();
     },
     _drawNode: function(node, contentElement) {
