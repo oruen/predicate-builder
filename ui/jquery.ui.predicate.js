@@ -103,7 +103,9 @@
             '<div class="ui-predicate-element">',
               '<div class="ui-widget-content ui-corner-all">',
                 this._operatorSelect(),
-                this._valueSelect(),
+                '<span class="ui-predicate-value">',
+                  this._valueSelect(),
+                '</span>',
                 '<span class="ui-icon ui-icon-plusthick ui-predicate-add ui-helper-hidden"></span>',
                 '<span class="ui-icon ui-icon-minusthick ui-predicate-remove"></span>',
               '</div>',
@@ -113,18 +115,21 @@
           ].join("")),
           predicate = this;
 
+
       // operator select
       item.find("select:first").on("change", function() {
-        var valueSelect = $(this).next(),
+        var valueSelect = $(this).parent().find(".ui-predicate-value"),
             addButton = $(this).parent().find(".ui-predicate-add"),
-            removeButton = $(this).parent().find(". ui-predicate-remove"),
+            removeButton = $(this).parent().find(".ui-predicate-remove"),
             content = $(this).closest(".ui-predicate-element").find(".ui-predicate-element-content");
         if ($(this).val() == "value") {
           valueSelect.removeClass("ui-helper-hidden");
+          predicate._trigger("valueShown", null, valueSelect.find("select"));
           addButton.addClass("ui-helper-hidden");
           content.addClass("ui-helper-hidden");
         } else {
           valueSelect.addClass("ui-helper-hidden");
+          predicate._trigger("valueHidden", null, valueSelect.find("select"));
           addButton.removeClass("ui-helper-hidden");
           content.removeClass("ui-helper-hidden");
         }
@@ -153,6 +158,7 @@
       }
 
       contentElement.append(item);
+      this._trigger("valueShown", null, item.find(".ui-predicate-value select"));
       this._checkAddButton();
       return item;
     },
@@ -180,3 +186,4 @@
     }
   }));
 })(jQuery);
+
