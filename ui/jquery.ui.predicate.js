@@ -29,8 +29,6 @@
       this.element.removeClass("ui-helper-hidden");
     },
     dump: function() {
-      this.element.val(this._valueOf(this.contentElement.find(".ui-predicate-element").first()));
-      this.element.trigger("change");
       if (this.drawingContent) { return; }
       var value = this._valueOf(this.contentElement.find(".ui-predicate-element").first());
       if (this.element.val() !== value) {
