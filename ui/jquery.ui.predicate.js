@@ -156,7 +156,10 @@
       }
 
       contentElement.append(item);
-      this._trigger("valueShown", null, item.find(".ui-predicate-value select"));
+      var selectItem = item.find(".ui-predicate-value select");
+      if (selectItem.is(":visible")) {
+        this._trigger("valueShown", null, selectItem);
+      }
       this._checkAddButton();
       return item;
     },
